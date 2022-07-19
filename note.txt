@@ -1,0 +1,174 @@
+microsoft azure in action 
+
+kafka  -- queue
+
+#Ch2
+
+node --version
+npm  --version
+mkdir my-new-project
+cd my-new-project
+npm init -y     //Creates a defult Node.js project with a stub 
+npm install --save <package-name>  // installs an NPM package 
+npm install     // install all dependencies for a Node.js project
+node <script-file>  //Runs a Node.js script file.
+npm install --only=production
+npm install --save-dev nodemon 
+
+#Ch3
+Docker
+. Package our microservice into a Docker image 
+. Publish our image to our private container registry
+. Run our microservice in a container
+
+Packaging our microservice
+. Create a Dockerfile for our microservice
+. Package our microservice as a Docker image 
+. Test the published image by booting it as a container
+
+Dockerfile: a script file with instructions on how to construct the image
+
+##-t tags the image to give it a name 
+##--file Specifies the Dockerfile to use 
+## . Runs the command against the current directory
+docker build -t video-streaming --file Dockerfile . 
+
+docker build -t <your-name-for-the-image> --file <path-to-your-Dockerfile> ➥ <path-to-project>
+
+# list our local images
+docker image list
+
+# Booting microserviews in a container 
+# -d : container run in detached mode. (background)
+docker run -d p <host-port>:<container-port> <image-name>
+docker run -d -p 3000:3000 video-streaming
+
+# Checking the container
+docker container list
+
+# Checking microservice
+
+docker logs <container-id>
+docker logs 460a19946689
+
+# Publishing our microservice
+1. We create our own private container registry on Microsoft Azure. We only need to do this 
+the first time we publish an image. Later, when we publish new versions of the image and 
+images for other microservices, we’ll simply reuse this same registry.
+2. Before publishing, we must authenticate with the registry using the docker login command.
+3. We use the docker push command to upload our image to the registry. (This is the step 
+that actually publishes our microservice.)
+4. We use docker run again to check that we can boot our microservice from the published image.
+
+https://azure.microsoft.com
+
+# Pushing our microservice to the registry
+The docker push command uploads a Docker image to container registry.
+
+# Authenticating with the registry
+
+docker login <your-registry-url> --username <your-username> --password <your-password>
+docker login alexhoboken1006.azurecr.io --username alexhoboken1006 --password b6TiaM1KFTt2PTx+AJ55dSx9mAanpFR6
+
+# Tagging image
+Before we can publish image to the registry, we must tell Docker where the image is being pushed. 
+docker tag <existing-image> <registry-url>/<image-name>:<version>
+
+docker tag video-streaming alexhoboken1006.azurecr.io/video-streaming:latest
+# check image 
+docker image list
+
+# PUSHING OUR IMAGE TO THE REGISTRY
+docker push <registry-url>/<image-name>:<version>
+docker push alexhoboken1006.azurecr.io/video-streaming:latest
+
+# shows both running and stopped containers
+docker ps 
+
+docker kill <your-container-id> 
+docker rm <your-container-id>
+
+# remove image
+docker rmi <your-image-id> --force
+
+# RUNNING A CONTAINER DIRECTLY FROM THE REGISTRY
+we can now instantiate a new container directly from the image in the remote registry.
+docker run -d -p <host-port>:<container-port> <registry-url>/<image-name>:<version>
+
+docker run -d -p 3000:3000 alexhoboken1006.azurecr.io/video-streaming:latest
+
+#CH4
+Docker Compose: Docker Compose allows us to configure, build, run, and manage multiple containers at the same time.
+Azure Storage: 
+MongoDB: 
+
+docker-compose up --build
+
+storage account: alexhoboken1006
+key:
+Cl77TQXbXWbExVi7/cs8FXALfInFFrTGC3tmiu32ImFB51arznZSenrfWeECrccSvRA2UzpE7MDA+AStjDoxIw==
+connection string:
+DefaultEndpointsProtocol=https;AccountName=alexhoboken1006;AccountKey=Cl77TQXbXWbExVi7/cs8FXALfInFFrTGC3tmiu32ImFB51arznZSenrfWeECrccSvRA2UzpE7MDA+AStjDoxIw==;EndpointSuffix=core.windows.net
+
+A container in Azure Storage is like a directory; it’s a location to store files.
+
+***CREATING A MICROSERVICE TO READ AZURE STORAGE***
+npm init -y 
+npm install --save express
+npm install --save-dev nodemon
+npm install --save azure-storage
+
+http://localhost:3000/video?path=SampleVideo_1280x720_20mb.mp4
+
+https://alexhoboken1006.blob.core.windows.net/videos/SampleVideo_1280x720_20mb.mp4
+
+Robo 3T (formerly known as Robomongo). This is an UI tool for working with MongoDB.
+https://robomongo.org/
+
+
+#Ch5
+HTTP requests for direct messaging, and RabbitMQ for indirect messaging among microservices. 
+
+**Promise**
+
+var promise = new Promise(function(resolve, reject) {
+  // do a thing, possibly async, then....
+
+  if (/* everything turned out fine */) {
+    resolve("Stuff worked!");
+  } else {
+    reject(Error("It broke));
+  }
+})
+
+The promise constructor takes one argument, a callback with two parameters, resolve and reject. 
+
+Here's how you use that promise:
+
+promise.then(function(result) {
+  console.log(result);
+  }, function (err) {
+    console.log(err);
+  }
+)
+
+then() takes two arguments, a callback for a success case, and another for the failure case. Both are optional, so you can add a callback for the success or failure case only.
+
+# live reload
+
+# RabbitMQ
+https://github.com/rabbitmq/rabbitmq-server
+The message sender uses DNS to resolve the IP address of the RabbitMQ server. It then communicates with it to publish a message on a particular named queue or exchange. The receiver also uses DNS to locate the RabbitMQ server and communicate with it to retrieve the message from the queue. At no point do the sender and receiver communicate directly.
+
+http://localhost:15672/. You can login with the default user name, guest, and the default password, guest.
+single-recipient message 
+multiple-recipient messages.
+
+# Ch6
+. Kubernetes
+. Terraform  https://www.terraform.io/
+. Kubectl : command-line tool for interacting with a kubernetes cluster
+. Azure CLI
+
+A Kubernetes cluster is composed of multiple computers. Each computer is called a node. Each node is actually a virtual machine (VM).
+Each node can host multiple pods. A pod is the basic unit of computation in Kubernetes. Each pod can have multiple containers.

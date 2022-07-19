@@ -1,0 +1,125 @@
+**********
+GIT
+**********
+https://cli.github.com/manual/gh_repo_create
+gh auth login
+gh repo create 
+gh repo list # list repositores 
+gh repo delete <repo_name>  
+
+
+
+git config --global user.name "Alex Chang"
+git config --global user.email alex.chang@inspirage.com
+git init   #Crate a new local repository
+git clone /path/to/repository  #Create a working copy of a local repository
+git clone username@host:/path/to/repository #Remote server
+git add <filename>  #Add one or more files to staging 
+git add *  
+git commit -m "Commit message"  #Commit changes to head 
+git commit -a  #Commit any files you've added wojt got add, and commit any files you've changed 
+git push origin master   #Send changes to the master branch of your remote repository
+git status  #List the files you've clhanged and those you still need to add or commit
+git remote add origin <server>  #Connect to remote server
+git remote -v #List all currently configured remote repositories
+git checkout -b <branchname>  #Create a new branch and switch to it 
+git checkout <branchname>  #Switch from one branch to another 
+git branch   #List all branches in your repo, and tell you what branch you've currently in
+git branch -d <branchname>  #Delete the feature branch 
+git push origin <branchname>  # push the branch to your remote repository 
+git push --all origin  #Push all branches to remote repository 
+git push origin :<branchname>  #Delete a branch on your remote repository 
+git pull   # Fetch and merge changes on the remote server to your working directory
+git merge <branchname>   #To merge a different branch into your active branch
+git diff    # View all the merge conflicts
+git diff -base <filename> # View the conflicts against the base file 
+git diff <sourcebranch> <targetbranch>  #Preview changes before merging 
+git add <filenalme>  #After you have manually resolved any conflicts, you mark the changed files
+git tag 1.0.0 <commitID> #YOu can use tagging to mark a significant changeset such as a release 
+git log  #CommitId is the leading characters of the changeset ID. Get the ID 
+git push --tags origin  #Push all tags to remote repository 
+git checkout -- <filename>  #If you mess up, you can replace the changes in your working tree with the last content in head 
+git fetch origin #fetch the latest history from the server and point your local master branch at it
+git reset --hard origin/master 
+git grep "foo()"  # Search the working directory for foo()
+**********
+node
+**********
+
+node --version
+npm  --version
+mkdir my-new-project
+cd my-new-project
+npm init -y     //Creates a defult Node.js project with a stub 
+npm install --save <package-name>  // installs an NPM package 
+npm install     // install all dependencies for a Node.js project
+node <script-file>  //Runs a Node.js script file.
+npm install --only=production
+npm install --save-dev nodemon 
+npm start
+npm run start:dev
+
+**********
+docker
+**********
+
+docker --version
+docker container list 
+docker ps 
+docker image list
+docker build -t <tag> --file <docker-file> . 
+docker run -d -p <host-port>:<container:port> <tag>
+docker logs <container-id>
+docker login <url> --username <username> --password <password>
+docker tag <existing-tag> <new-tag>
+docker push <tag>
+docker kill <container-id>
+docker rm <container-id>
+docker rmi <image-id> --force  #Removes a particular image locally
+
+docker-compose --version
+# The up command causes Docker Compose to boot microservices application
+# The --build argument makes Docker Compose build each of our images before instantiating containers
+docker-compose up --build
+
+# -f to specify the Docker Compose file
+docker-compose -f docker-compose-prod.yml up --build
+
+# Change the directory to where the Docker Compose file is located
+# Docker Compose commands only relate to the images and containers specified in the Docker Compose file.
+# The ps command shows a list of running containers
+docker-compose ps
+
+# stops all containers in the application, but persists the stopped containers for inspection
+docker-compose stop
+
+# Stops and destroys the applcation
+docker-compose down
+
+docker-compose down && docker-compose up --build
+
+docker-compose restart <container_name> # force the microservice to restart
+
+
+
+**********
+Azure CLI
+**********
+
+az --version
+az login
+az account show  # show the current default subscription 
+az account list  # list all subscriptions with this command
+az account set --subscription=<subscription-id>  # change current working subscription
+az aks get-versions --location eastus # Use the aks subcommand to interact with the Azure Kubernetes service 
+                                      # list versions of kubernetes in the east us region
+az aks get-versions --location eastus --output table
+
+1.23.8 -- Kubernetes
+
+**********
+Terraform
+**********
+# Terraform 
+terraform --version
+https://learn.hashicorp.com/terraform
